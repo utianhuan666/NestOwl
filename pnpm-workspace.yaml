@@ -1,3 +1,7 @@
 packages:
-  - 'apps/*'
+  - 'apps/server'
+  - 'apps/web'
+  - 'apps/admin'
   - 'packages/*'
+  
+  - '!apps/app'
