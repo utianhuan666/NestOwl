@@ -1,7 +1,0 @@
-{
-  "extends": ["./node_modules/@alxwlw/oxlint-config/nest.jsonc"],
-  "options": {
-    "typeAware": true
-  },
-  "ignorePatterns": ["**/dist/**", "**/node_modules/**", "**/*.generated.*"]
-}
