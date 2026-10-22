@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@alxwlw/oxlint-config": "^1.6.0",
+    "oxlint": "^1.89.0",
+    "oxlint-tsgolint": "^7.0.2004"
+  }
 }
