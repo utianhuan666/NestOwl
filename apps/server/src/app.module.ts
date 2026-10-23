@@ -6,9 +6,10 @@ import { AllExceptionsFilter } from './common/http/all-exceptions.filter.js';
 import { ResponseWrapInterceptor } from './common/http/response-wrap.interceptor.js';
 import { MilvusModule } from './milvus/milvus.module.js';
 import { AiModule } from './ai/ai.module.js';
+import { ChatModule } from './chat/chat.module.js';
 
 @Module({
-  imports: [MilvusModule, AiModule],
+  imports: [MilvusModule, AiModule, ChatModule],
   controllers: [AppController],
   providers: [
     AppService,

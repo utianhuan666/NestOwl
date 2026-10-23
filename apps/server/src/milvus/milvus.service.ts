@@ -91,6 +91,9 @@ export class MilvusService implements OnModuleInit {
       limit: limit,
       output_fields: ['content'],
     });
-    return res;
+
+    this.logger.log(`🔍 检索到 ${ res }`);
+    // 把搜到的结果提取成纯字符串数组返回
+    return res.results.map((item: any) => item.content);
   }
 }
