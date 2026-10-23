@@ -4,9 +4,11 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AllExceptionsFilter } from './common/http/all-exceptions.filter.js';
 import { ResponseWrapInterceptor } from './common/http/response-wrap.interceptor.js';
+import { MilvusModule } from './milvus/milvus.module.js';
+import { AiModule } from './ai/ai.module.js';
 
 @Module({
-  imports: [],
+  imports: [MilvusModule, AiModule],
   controllers: [AppController],
   providers: [
     AppService,
