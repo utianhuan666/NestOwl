@@ -78,7 +78,7 @@ export class AppController {
       }
 
       //2.文本切块
-      const chunks = splitText(text, 500, 50);
+      const chunks = splitText(text, 1000, 50);
       this.logger.log(`✂️ 切分为 ${chunks.length} 个片段`);
 
       //3.初始化Milvus集合
@@ -86,18 +86,32 @@ export class AppController {
       await this.milvusService.loadCollection();
 
       //4.循环入库
+      let batchSize = 20;
       let successCount = 0;
-      for (const chunk of chunks) {
-        const vector = await this.aiService.getEmbedding(chunk);
-        await this.milvusService.insertData(vector, chunk);
-        successCount++;
+      // for (const chunk of chunks) {
+      //   const vector = await this.aiService.getEmbedding(chunk);
+      //   await this.milvusService.insertData(vector, chunk);
+      //   successCount++;
+      // }
+
+      for (let i = 0; i < chunks.length; i += batchSize) {
+        const batchChunks = chunks.slice(i, i + batchSize);
+        try {
+          const vectors = await this.aiService.getBatchEmbeddings(batchChunks);
+          for (let j = 0; j < batchChunks.length; j++) {
+            await this.milvusService.insertData(vectors[j], batchChunks[j]);
+            successCount++;
+          }
+          this.logger.log(`✂️ 进度：已入库 ${successCount} / ${chunks.length} 条`);
+        } catch (err) {
+          this.logger.error(`❌ 第 ${i} 批次入库失败，跳过继续:`, err);
+        }
       }
 
       return {
         filename: file.originalname,
         chunksCount: successCount,
       };
-
     } catch (err) {
       this.logger.error('❌ 文件解析失败', err);
       throw new BadRequestException('文件处理失败');
